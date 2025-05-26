@@ -42,7 +42,7 @@ const css = StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
-  
+
   pickerWrapper: {
     flex: 1,
     borderWidth: 2,
@@ -51,48 +51,47 @@ const css = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 2,
   },
-  
+
   dropDownIcon: {
     marginRight: 10,
   },
-  homeCustomerContainer: {
+  pageContainer: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
-  homeCustomerContent: {
-    backgroundColor: 'white',
+  pageContent: {
+    backgroundColor: "white",
     marginBottom: 40,
-    padding: 20,
-
+    paddingHorizontal: 20,
   },
   navBar: {
-    height: 110,
-    flexDirection: 'row',
-    alignItems: 'center',
+    height: 100,
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: 20,
-    paddingTop: 20,
-    backgroundColor: 'white',
-    justifyContent: 'space-between',
+    paddingTop: 30,
+    backgroundColor: "white",
+    justifyContent: "space-between",
     marginBottom: 10,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 4,
   },
   navBarTitle: {
-     color: 'black',
-     fontSize: 18,
-     flex: 1,
-     textAlign: 'center',
-     fontWeight: 'bold',
+    color: "black",
+    fontSize: 18,
+    flex: 1,
+    textAlign: "center",
+    fontWeight: "bold",
   },
   searchBarContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "white",
     borderRadius: 10,
     padding: 10,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     marginBottom: 30,
   },
@@ -106,7 +105,7 @@ const css = StyleSheet.create({
   },
   currentCanteenDashboard: {
     width: "100%",
-    backgroundColor: '#102E50',
+    backgroundColor: "#102E50",
     borderRadius: 20,
     height: 120,
     paddingVertical: 15,
@@ -114,47 +113,126 @@ const css = StyleSheet.create({
     marginBottom: 30,
   },
   currentCanteenDashboardText: {
-    color: 'white',
+    color: "white",
   },
   header: {
     fontSize: 34,
     fontWeight: "bold",
     marginBottom: 20,
   },
-  subHeading: {
-    fontWeight:'bold',
+  subHeader: {
+    fontWeight: "bold",
     fontSize: 18,
     marginBottom: 20,
   },
   itemContainer: {
-    width: 120,
+    width: 140,
     marginRight: 12,
     borderRadius: 10,
-    backgroundColor: '#fff',
-    padding: 5,
-    shadowColor: '#000',
+    backgroundColor: "#fff",
+    shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 4,
     marginBottom: 30,
   },
   itemImage: {
-    width: '100%',
+    width: "100%",
     height: 120,
     borderRadius: 8,
     marginBottom: 10,
-    backgroundColor: '#eaeaea',
+    backgroundColor: "#eaeaea",
   },
   itemName: {
     fontSize: 14,
-    fontWeight: '700',
-    marginBottom: 8,
-    color: 'grey',
+    fontWeight: "600",
+    textAlign: "center",
+    marginBottom: 4,
   },
   itemPrice: {
     fontSize: 12,
-    fontWeight: '700',
-    color: '#102E50',
+    fontWeight: "700",
+    color: "#102E50",
+    textAlign: "left",
+  },
+  itemRating: {
+    fontSize: 10,
+    color: "#888",
+  },
+  priceRow: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  padding: 10,
+},
+  // Add these to your css file:
+
+  categoryScrollView: {
+    marginVertical: 16,
+    marginHorizontal: -20, // Offset parent padding
+  },
+
+  categoryScrollContent: {
+    paddingHorizontal: 20,
+    paddingRight: 40, // Extra scroll space
+  },
+
+  categoryButton: {
+    marginRight: 20,
+    paddingHorizontal: 4,
+    paddingVertical: 8,
+    minHeight: 40,
+  },
+
+  categoryText: {
+    fontSize: 16,
+    paddingBottom: 4,
+    textAlign: "left",
+  },
+
+  categoryTextActive: {
+    fontWeight: "bold",
+    color: "#000",
+    borderBottomWidth: 2,
+    borderBottomColor: "#102E50",
+  },
+
+  categoryTextInactive: {
+    fontWeight: "normal",
+    color: "#888",
+    borderBottomWidth: 0,
+  },
+
+  foodItemCard: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    marginBottom: 20,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+  },
+
+  foodItemImage: {
+    width: "100%",
+    height: 100,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+
+  foodItemsGrid: {
+    marginHorizontal: -20, // Offset parent padding
+  },
+
+  foodItemsGridColumn: {
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+  },
+
+  foodItemsGridContent: {
+    paddingBottom: 100,
+    paddingTop: 0,
   },
 });
 

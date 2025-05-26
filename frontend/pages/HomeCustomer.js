@@ -6,36 +6,31 @@ import OccupationDropdown from "../component/OccupationDropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { setCanteen } from "../slices/userSlices";
 import HorizontalScroll from "../component/HorizontalScroll";
-import CustomerBottomTab from '../component/CustomerBottomTab';
-import StaffBottomTab from '../component/StaffBottomTab';
-import MainNavigator from "../component/MainBottomNavigate";
-
 
 const HomeCustomer = () => {
   const dispatch = useDispatch();
 
   const canteen = useSelector((state) => state.user.canteen);
-  const role = useSelector((state) => state.user.role);
-
+  
   const handleCanteenChange = (newCanteen) => {
     dispatch(setCanteen(newCanteen));
   };
 
   return (
-    <SafeAreaView style={css.homeCustomerContainer}>
+    <SafeAreaView style={css.pageContainer}>
       <NavBar pageTitle="Home" />
 
-      <ScrollView style={css.homeCustomerContent}>
+      <ScrollView style={css.pageContent}>
         <SearchBar placeholder="Search Your Food" />
 
         <View style={css.currentCanteenDashboard}>
           <Text style={[css.header, { color: "white", marginBottom: 5 }]}>
             Current Canteen:
           </Text>
-          <Text style={[css.subHeading, { color: "white" }]}>{canteen}</Text>
+          <Text style={[css.subHeader, { color: "white" }]}>{canteen}</Text>
         </View>
 
-        <Text style={css.subHeading}>
+        <Text style={css.subHeader}>
           Change your canteen in the below options!
         </Text>
         <OccupationDropdown
@@ -49,12 +44,11 @@ const HomeCustomer = () => {
           onValueChange={handleCanteenChange}
         />
 
-        <Text style={css.subHeading}>Top of the Week</Text>
+        <Text style={css.subHeader}>Top of the Week</Text>
         <HorizontalScroll />
 
-        <Text style={css.subHeading}>Latest Offer</Text>
+        <Text style={css.subHeader}>Latest Offer</Text>
         <HorizontalScroll />
-        <MainNavigator /> 
       </ScrollView>
     </SafeAreaView>
   );
