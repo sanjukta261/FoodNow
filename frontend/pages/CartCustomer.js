@@ -1,9 +1,10 @@
-import {View, Text} from 'react-native';
+import { View, Text } from "react-native";
+import css from '../component/css'
 
 const CartCustomer = () => {
   return (
-    <View>
-      <Text>Cart Page</Text>
+    <View style={css.navBar}>
+      <Text style={css.navBarTitle}> My Cart </Text>
     </View>
   );
 };

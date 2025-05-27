@@ -1,4 +1,7 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+const BOTTOM_SHEET_HEIGHT = SCREEN_HEIGHT * 0.7;
 
 const css = StyleSheet.create({
   splashScreenContainer: {
@@ -69,14 +72,14 @@ const css = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingTop: 30,
+    paddingTop: 40,
     backgroundColor: "white",
     justifyContent: "space-between",
     marginBottom: 10,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 4,
+    // shadowColor: "#000",
+    // shadowOpacity: 0.1,
+    // shadowRadius: 6,
+    // elevation: 4,
   },
   navBarTitle: {
     color: "black",
@@ -141,7 +144,6 @@ const css = StyleSheet.create({
     height: 120,
     borderRadius: 8,
     marginBottom: 10,
-    backgroundColor: "#eaeaea",
   },
   itemName: {
     fontSize: 14,
@@ -233,6 +235,117 @@ const css = StyleSheet.create({
   foodItemsGridContent: {
     paddingBottom: 100,
     paddingTop: 0,
+  },
+  //bottom sheets css
+  backdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  sheetContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: BOTTOM_SHEET_HEIGHT,
+    backgroundColor: 'white',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    elevation: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  dragHandleWrapper: {
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  dragHandle: {
+    width: 40,
+    height: 4,
+    backgroundColor: '#ccc',
+    borderRadius: 2,
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  bottomSheetItemImage: {
+    width: '100%',
+    height: 200,
+    borderRadius: 15,
+    marginBottom: 20,
+  },
+  bottomSheetItemName: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 10,
+    color: '#333',
+  },
+  bottomSheetItemDescription: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 15,
+    lineHeight: 22,
+  },
+  bottomSheetItemPriceRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  bottomSheetItemPriceText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#102E50',
+  },
+  bottomSheetItemRatingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  bottomSheetItemrRatingText: {
+    fontSize: 16,
+    color: '#666',
+    marginRight: 5,
+  },
+  prepTimeText: {
+    fontSize: 14,
+    color: '#888',
+  },
+  quantitySelector: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  quantityBtn: (enabled = true) => ({
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: enabled ? '#102E50' : '#ccc',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }),
+  quantityText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginHorizontal: 30,
+    minWidth: 30,
+    textAlign: 'center',
+  },
+  addToCartBtn: {
+    backgroundColor: '#102E50',
+    paddingVertical: 15,
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  addToCartText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 
