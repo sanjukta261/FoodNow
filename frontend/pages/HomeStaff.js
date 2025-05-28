@@ -1,114 +1,170 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, RefreshControl } from 'react-native';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { View, Text, TextInput, ScrollView, TouchableOpacity, Alert, Image } from 'react-native';
 import { API_ENDPOINTS } from '../config/api';
 import NavBar from '../component/NavBar';
 import css from '../component/css';
 
-const HomeStaff = () => {
-  const [stats, setStats] = useState({
-    totalOrders: 0,
-    pendingOrders: 0,
-    inventory: [],
+const AddItemStaff = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    price: '',
+    quantity: '',
+    category: '',
+    prepTime: '',
+    image: 'https://via.placeholder.com/200x100',
+    availability: true,
+    rating: 0,
+    canteen: 'A Block'
   });
-  const [refreshing, setRefreshing] = useState(false);
-  const canteen = useSelector((state) => state.user.canteen);
 
-  const fetchStats = async () => {
+  const handleSubmit = async () => {
     try {
-      // Fetch orders for the canteen
-      const ordersResponse = await fetch(API_ENDPOINTS.ORDERS_BY_CANTEEN(canteen));
-      const orders = await ordersResponse.json();
-      
-      // Fetch inventory for the canteen
-      const inventoryResponse = await fetch(API_ENDPOINTS.ITEMS_BY_CANTEEN(canteen));
-      const inventory = await inventoryResponse.json();
-
-      setStats({
-        totalOrders: orders.length,
-        pendingOrders: orders.filter(order => order.status === 'Pending').length,
-        inventory: inventory,
+      const response = await fetch(API_ENDPOINTS.ADD_ITEM, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          price: parseFloat(formData.price),
+          quantity: parseInt(formData.quantity),
+        }),
       });
+
+      if (response.ok) {
+        Alert.alert('Success', 'Item added successfully!');
+        setFormData({
+          name: '',
+          description: '',
+          price: '',
+          quantity: '',
+          category: '',
+          prepTime: '',
+          image: 'https://via.placeholder.com/200x100',
+          availability: true,
+          rating: 0,
+          canteen: 'A Block'
+        });
+      } else {
+        Alert.alert('Error', 'Failed to add item');
+      }
     } catch (error) {
-      console.error('Error fetching stats:', error);
+      console.error('Error adding item:', error);
+      Alert.alert('Error', 'Failed to add item');
     }
   };
 
-  const onRefresh = async () => {
-    setRefreshing(true);
-    await fetchStats();
-    setRefreshing(false);
-  };
-
-  useEffect(() => {
-    fetchStats();
-  }, [canteen]);
-
   return (
     <View style={css.pageContainer}>
-      <NavBar pageTitle="Staff Dashboard" />
-      <ScrollView 
-        style={css.pageContent}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        <Text style={[css.header, { color: "#041C4D" }]}>Dashboard</Text>
+      <NavBar pageTitle="Add New Item" />
+      <ScrollView style={css.pageContent}>
+        <Text style={[css.header, { color: "#041C4D" }]}>Add New Menu Item</Text>
 
-        <View style={css.currentCanteenDashboard}>
-          <Text style={[css.header, { color: "white", marginBottom: 5 }]}>
-            {canteen} Canteen
-          </Text>
-          <Text style={[css.currentCanteenDashboardText, { fontSize: 16 }]}>
-            Total Orders Today: {stats.totalOrders}
-          </Text>
-          <Text style={[css.currentCanteenDashboardText, { fontSize: 16 }]}>
-            Pending Orders: {stats.pendingOrders}
-          </Text>
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Name</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.name}
+            onChangeText={(text) => setFormData({ ...formData, name: text })}
+            placeholder="Item name"
+          />
         </View>
 
-        <Text style={css.subHeader}>Inventory Status</Text>
-        {stats.inventory.map((item) => (
-          <View key={item.id} style={styles.inventoryItem}>
-            <Text style={styles.itemName}>{item.name}</Text>
-            <Text style={styles.itemQuantity}>
-              Quantity: {item.quantity}
-              {item.quantity < 10 && (
-                <Text style={styles.lowStock}> (Low Stock)</Text>
-              )}
-            </Text>
-          </View>
-        ))}
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Description</Text>
+          <TextInput
+            style={[styles.input, { height: 80 }]}
+            value={formData.description}
+            onChangeText={(text) => setFormData({ ...formData, description: text })}
+            placeholder="Item description"
+            multiline
+          />
+        </View>
+
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Price (₹)</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.price}
+            onChangeText={(text) => setFormData({ ...formData, price: text })}
+            placeholder="Price"
+            keyboardType="numeric"
+          />
+        </View>
+
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Quantity</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.quantity}
+            onChangeText={(text) => setFormData({ ...formData, quantity: text })}
+            placeholder="Quantity"
+            keyboardType="numeric"
+          />
+        </View>
+
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Category</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.category}
+            onChangeText={(text) => setFormData({ ...formData, category: text })}
+            placeholder="Category"
+          />
+        </View>
+
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Preparation Time</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.prepTime}
+            onChangeText={(text) => setFormData({ ...formData, prepTime: text })}
+            placeholder="e.g., 15-20 mins"
+          />
+        </View>
+
+        <TouchableOpacity
+          style={styles.submitButton}
+          onPress={handleSubmit}
+        >
+          <Text style={styles.submitButtonText}>Add Item</Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );
 };
 
 const styles = {
-  inventoryItem: {
-    backgroundColor: '#fff',
+  formGroup: {
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 8,
+    color: '#333',
+    fontWeight: '500',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
+  },
+  submitButton: {
+    backgroundColor: '#102E50',
     padding: 15,
     borderRadius: 8,
-    marginBottom: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 40,
   },
-  itemName: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 5,
-  },
-  itemQuantity: {
-    fontSize: 14,
-    color: '#666',
-  },
-  lowStock: {
-    color: '#ff4444',
-    fontWeight: '500',
+  submitButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 };
 
-export default HomeStaff;
+export default AddItemStaff;
