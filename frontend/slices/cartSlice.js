@@ -1,8 +1,8 @@
 // slices/cartSlice.js
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const cartSlice = createSlice({
-  name: 'cart',
+  name: "cart",
   initialState: {
     items: [], // each item: { id, name, price, quantity, ... }
   },
@@ -12,7 +12,10 @@ const cartSlice = createSlice({
       const existing = state.items.find((i) => i.id === item.id);
       if (existing) {
         existing.quantity += item.quantity;
-      } else {
+        if (existing.quantity <= 0) {
+          state.items = state.items.filter((i) => i.id !== item.id);
+        }
+      } else if (item.quantity > 0) {
         state.items.push(item);
       }
     },

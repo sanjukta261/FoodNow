@@ -14,6 +14,8 @@ import SearchBar from "../component/SearchBar";
 import css from "../component/css";
 import BottomSheet from "../component/BottomSheet";
 import foodItems from '../data/foodItems';
+import { useDispatch } from "react-redux";
+import { addToCart } from "../slices/cartSlice";
 
 const { width } = Dimensions.get("window");
 
@@ -25,6 +27,7 @@ const MenuCustomer = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const dispatch = useDispatch();
 
   // Filter items based on category and search
   const getFilteredItems = () => {
@@ -53,11 +56,9 @@ const MenuCustomer = () => {
   };
 
   const handleAddToCart = (itemWithQuantity) => {
-    // Here you would typically add the item to your cart state/context
-    console.log('Added to cart:', itemWithQuantity);
-    // You can integrate with your cart logic here
-    // For example: addToCart(itemWithQuantity);
-  };
+  console.log('✅ Added to cart from Menu:', itemWithQuantity);
+  dispatch(addToCart(itemWithQuantity)); 
+};
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
@@ -150,7 +151,7 @@ const MenuCustomer = () => {
               fontWeight: "bold",
             }}
           >
-            ${item.price.toFixed(2)}
+            ₹{item.price.toFixed(2)}
           </Text>
           <Text
             style={{

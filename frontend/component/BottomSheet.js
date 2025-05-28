@@ -99,7 +99,7 @@ const BottomSheet = ({ visible, onClose, item, onAddToCart }) => {
           <Text style={css.bottomSheetItemDescription}>{item.description}</Text>
 
           <View style={css.bottomSheetItemPriceRow}>
-            <Text style={css.bottomSheetItemPriceText}>${item.price.toFixed(2)}</Text>
+            <Text style={css.bottomSheetItemPriceText}>₹{item.price.toFixed(2)}</Text>
             <View style={css.bottomSheetItemRatingRow}>
               <Text style={css.bottomSheetItemRatingText}>⭐ {item.rating}</Text>
               <Text style={css.prepTimeText}>• {item.prepTime}</Text>
@@ -127,7 +127,7 @@ const BottomSheet = ({ visible, onClose, item, onAddToCart }) => {
 
           <TouchableOpacity onPress={handleAddToCart} style={css.addToCartBtn}>
             <Text style={css.addToCartText}>
-              Add to Cart • ${(item.price * quantity).toFixed(2)}
+              Add to Cart • ₹{(item.price * quantity).toFixed(2)}
             </Text>
           </TouchableOpacity>
         </View>

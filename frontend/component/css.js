@@ -50,7 +50,7 @@ const css = StyleSheet.create({
     flex: 1,
     borderWidth: 2,
     borderColor: "#041C4D",
-    borderRadius: 20,
+    borderRadius: 40,
     paddingHorizontal: 12,
     paddingVertical: 2,
   },
@@ -347,6 +347,123 @@ const css = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    padding: 16,
+  },
+  cartHeader: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  order: {
+    fontSize: 20,
+    color: '#444',
+    marginBottom: 15,
+    textAlign: "left",
+    marginLeft: 20,
+  },
+  list: {
+    paddingBottom: 120,
+  },
+  cartItem: {
+    flexDirection: 'row',
+    backgroundColor: '#f5f5f5',
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 12,
+  },
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: 8,
+  },
+  details: {
+    marginLeft: 12,
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  name: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  description: {
+    fontSize: 13,
+    color: '#666',
+  },
+  price: {
+    fontSize: 15,
+    fontWeight: '600',
+    marginVertical: 4,
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    padding: 16,
+    borderTopWidth: 1,
+    borderColor: '#ccc',
+    backgroundColor: '#fff',
+  },
+  total: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 12,
+  },
+  button: {
+    backgroundColor: '#102E50',
+    paddingVertical: 12,
+    borderRadius: 10,
+    alignItems: 'center',
+    width: 250,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  orderCard: {
+  backgroundColor: '#fff',
+  marginVertical: 10,
+  padding: 15,
+  borderRadius: 10,
+  shadowColor: '#000',
+  shadowOpacity: 0.1,
+  shadowOffset: { width: 0, height: 2 },
+  elevation: 3,
+},
+orderTitle: { 
+  fontSize: 18, 
+  fontWeight: 'bold', 
+  marginBottom: 5
+ },
+customerName: {
+  fontSize: 14, 
+  marginBottom: 5,
+ },
+itemList: { 
+  marginBottom: 5 
+},
+orderItemText: { 
+  fontSize: 14, 
+  marginLeft: 10 
+},
+totalAmount: { 
+  fontSize: 16, 
+  fontWeight: '600', 
+  marginVertical: 5 
+},
+orderStatus: { 
+  fontSize: 14, 
+  marginBottom: 10 
+},
+btnText: { 
+  color: '#fff', 
+  textAlign: 'center', 
+  fontWeight: 'bold' 
+},
+
 });
 
 export default css;
