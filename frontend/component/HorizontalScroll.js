@@ -71,7 +71,7 @@ const HorizontalScroll = ({ onItemPress, title }) => {
                   textAlign: "center",
                 }}
               >
-                ${item.price.toFixed(2)}
+                ₹{item.price.toFixed(2)}
               </Text>
             </View>
           </TouchableOpacity>
