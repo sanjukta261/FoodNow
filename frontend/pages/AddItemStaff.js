@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, TouchableOpacity, Alert, Image } from 'react-native';
+import { View, Text, TextInput, ScrollView, TouchableOpacity, Alert, Image, FlatList } from 'react-native';
 import { API_ENDPOINTS } from '../config/api';
 import NavBar from '../component/NavBar';
 import css from '../component/css';
+import foodItems from '../data/foodItems';
 
 const AddItemStaff = () => {
   const [formData, setFormData] = useState({
@@ -12,13 +13,20 @@ const AddItemStaff = () => {
     quantity: '',
     category: '',
     prepTime: '',
-    image: 'https://via.placeholder.com/200x100',
+    image: '',
     availability: true,
     rating: 0,
     canteen: 'A Block'
   });
 
+  const categories = ["Featured", "Roll", "Samosa", "Beverages"];
+
   const handleSubmit = async () => {
+    if (!formData.image) {
+      Alert.alert('Error', 'Please select an image for the item');
+      return;
+    }
+
     try {
       const response = await fetch(API_ENDPOINTS.ADD_ITEM, {
         method: 'POST',
@@ -41,7 +49,7 @@ const AddItemStaff = () => {
           quantity: '',
           category: '',
           prepTime: '',
-          image: 'https://via.placeholder.com/200x100',
+          image: '',
           availability: true,
           rating: 0,
           canteen: 'A Block'
@@ -54,6 +62,25 @@ const AddItemStaff = () => {
       Alert.alert('Error', 'Failed to add item');
     }
   };
+
+  const renderImageOption = ({ item }) => (
+    <TouchableOpacity
+      style={[
+        styles.imageOption,
+        formData.image === item.image.uri && styles.selectedImageOption
+      ]}
+      onPress={() => setFormData({ ...formData, image: item.image.uri })}
+    >
+      <Image
+        source={item.image}
+        style={styles.imagePreview}
+        resizeMode="cover"
+      />
+      <Text style={styles.imageOptionText} numberOfLines={1}>
+        {item.name}
+      </Text>
+    </TouchableOpacity>
+  );
 
   return (
     <View style={css.pageContainer}>
@@ -106,12 +133,29 @@ const AddItemStaff = () => {
 
         <View style={styles.formGroup}>
           <Text style={styles.label}>Category</Text>
-          <TextInput
-            style={styles.input}
-            value={formData.category}
-            onChangeText={(text) => setFormData({ ...formData, category: text })}
-            placeholder="Category"
-          />
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            style={styles.categoryContainer}
+          >
+            {categories.map((category) => (
+              <TouchableOpacity
+                key={category}
+                style={[
+                  styles.categoryButton,
+                  formData.category === category && styles.selectedCategory
+                ]}
+                onPress={() => setFormData({ ...formData, category })}
+              >
+                <Text style={[
+                  styles.categoryButtonText,
+                  formData.category === category && styles.selectedCategoryText
+                ]}>
+                  {category}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         </View>
 
         <View style={styles.formGroup}>
@@ -123,6 +167,29 @@ const AddItemStaff = () => {
             placeholder="e.g., 15-20 mins"
           />
         </View>
+
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Select Image</Text>
+          <FlatList
+            data={foodItems}
+            renderItem={renderImageOption}
+            keyExtractor={(item) => item.id}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.imageList}
+          />
+        </View>
+
+        {formData.image && (
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Selected Image Preview</Text>
+            <Image
+              source={{ uri: formData.image }}
+              style={styles.selectedImagePreview}
+              resizeMode="cover"
+            />
+          </View>
+        )}
 
         <TouchableOpacity
           style={styles.submitButton}
@@ -164,6 +231,54 @@ const styles = {
     color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  imageList: {
+    marginVertical: 10,
+  },
+  imageOption: {
+    marginRight: 15,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: 'transparent',
+    padding: 5,
+  },
+  selectedImageOption: {
+    borderColor: '#102E50',
+  },
+  imagePreview: {
+    width: 100,
+    height: 100,
+    borderRadius: 8,
+  },
+  imageOptionText: {
+    fontSize: 12,
+    textAlign: 'center',
+    marginTop: 5,
+  },
+  selectedImagePreview: {
+    width: '100%',
+    height: 200,
+    borderRadius: 8,
+  },
+  categoryContainer: {
+    flexDirection: 'row',
+    marginVertical: 10,
+  },
+  categoryButton: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 20,
+    backgroundColor: '#f0f0f0',
+    marginRight: 10,
+  },
+  selectedCategory: {
+    backgroundColor: '#102E50',
+  },
+  categoryButtonText: {
+    color: '#333',
+  },
+  selectedCategoryText: {
+    color: 'white',
   },
 };
 
