@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, RefreshControl, Alert } from 'react-native';
+import { useSelector } from 'react-redux';
+import { API_ENDPOINTS } from '../config/api';
 import css from '../component/css';
 import PrimaryButton from '../component/PrimaryButton';
 import NavBar from '../component/NavBar';
@@ -8,11 +10,11 @@ const OrderStaff = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const canteen = useSelector((state) => state.user.canteen);
 
-  // Fetch orders from backend
   const fetchOrders = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/orders');
+      const response = await fetch(API_ENDPOINTS.ORDERS_BY_CANTEEN(canteen));
       const data = await response.json();
       setOrders(data);
       setLoading(false);
@@ -23,10 +25,9 @@ const OrderStaff = () => {
     }
   };
 
-  // Update order status
   const updateStatus = async (id, newStatus) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/orders/${id}/status`, {
+      const response = await fetch(API_ENDPOINTS.UPDATE_ORDER_STATUS(id), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -35,7 +36,6 @@ const OrderStaff = () => {
       });
 
       if (response.ok) {
-        // Update the order in local state
         setOrders((prev) =>
           prev.map((order) =>
             order.id === id ? { ...order, status: newStatus } : order
@@ -51,17 +51,15 @@ const OrderStaff = () => {
     }
   };
 
-  // Refresh orders
   const onRefresh = async () => {
     setRefreshing(true);
     await fetchOrders();
     setRefreshing(false);
   };
 
-  // Load orders on component mount
   useEffect(() => {
     fetchOrders();
-  }, []);
+  }, [canteen]);
 
   const renderOrder = ({ item }) => (
     <View style={css.orderCard}>
@@ -69,11 +67,9 @@ const OrderStaff = () => {
       <Text style={css.customerName}>Token: {item.tokenId}</Text>
 
       <View style={css.itemList}>
-        {item.items && item.items.map((food, idx) => (
-          <Text key={idx} style={css.orderItemText}>
-            • {food.name} x{food.quantity}
-          </Text>
-        ))}
+        <Text style={css.orderItemText}>
+          • {item.itemName} x{item.quantity}
+        </Text>
       </View>
 
       <Text style={css.totalAmount}>Total: ₹{item.totalAmount?.toFixed(2) || '0.00'}</Text>
@@ -83,7 +79,7 @@ const OrderStaff = () => {
         <PrimaryButton
           label="Mark as Preparing"
           onPress={() => updateStatus(item.id, 'Preparing')}
-          style={css.primaryBtn}
+          style={[css.primaryButton, { backgroundColor: '#102E50' }]}
           textStyle={css.btnText}
         />
       )}
@@ -92,7 +88,7 @@ const OrderStaff = () => {
         <PrimaryButton
           label="Complete Order"
           onPress={() => updateStatus(item.id, 'Completed')}
-          style={css.primaryBtn}
+          style={[css.primaryButton, { backgroundColor: '#102E50' }]}
           textStyle={css.btnText}
         />
       )}
@@ -102,9 +98,9 @@ const OrderStaff = () => {
   if (loading) {
     return (
       <View style={css.pageContainer}>
-        <NavBar pageTitle="Customer Orders" />
+        <NavBar pageTitle="Orders" />
         <View style={css.pageContent}>
-          <Text style={css.loadingText}>Loading orders...</Text>
+          <Text>Loading orders...</Text>
         </View>
       </View>
     );
@@ -112,8 +108,9 @@ const OrderStaff = () => {
 
   return (
     <View style={css.pageContainer}>
-      <NavBar pageTitle="Customer Orders" />
+      <NavBar pageTitle="Orders" />
       <View style={css.pageContent}>
+        <Text style={[css.header, { color: "#041C4D" }]}>Current Orders</Text>
         <FlatList
           data={orders}
           keyExtractor={(item) => item.id.toString()}
